@@ -5,6 +5,7 @@ import com.ryhnik.dto.maintenancedate.MaintenanceDateInputCreateDto;
 import com.ryhnik.entity.PortfolioImage;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MasterFullInputCreateDto {
@@ -14,6 +15,9 @@ public class MasterFullInputCreateDto {
     private List<MaintenanceInputCreateDto> maintenances;
     private List<MaintenanceDateInputCreateDto> dates;
     private List<PortfolioImage> images;
+    private List<Long> maintenancesToDelete;
+    private List<Long> datesToDelete = new ArrayList<>();
+    private List<String> imagesToDelete = new ArrayList<>();
 
     public String getInfo() {
         return info;
@@ -53,5 +57,29 @@ public class MasterFullInputCreateDto {
 
     public void setImages(List<PortfolioImage> images) {
         this.images = images;
+    }
+
+    public List<Long> getMaintenancesToDelete() {
+        return maintenancesToDelete;
+    }
+
+    public void setMaintenancesToDelete(List<Long> maintenancesToDelete) {
+        this.maintenancesToDelete = maintenancesToDelete;
+    }
+
+    public List<Long> getDatesToDelete() {
+        return datesToDelete;
+    }
+
+    public void setDatesToDelete(List<Long> datesToDelete) {
+        this.datesToDelete = datesToDelete;
+    }
+
+    public List<String> getImagesToDelete() {
+        return imagesToDelete;
+    }
+
+    public void setImagesToDelete(List<String> imagesToDelete) {
+        this.imagesToDelete = imagesToDelete;
     }
 }

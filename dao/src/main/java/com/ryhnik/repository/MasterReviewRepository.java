@@ -15,6 +15,6 @@ public interface MasterReviewRepository extends JpaRepository<MasterReview, Long
 
     Optional<MasterReview> findByIdAndUserUsername(Long id, String username);
 
-    @Query("SELECT mr FROM MasterReview mr WHERE mr.master.user.id = :userId")
+    @Query("SELECT mr FROM MasterReview mr WHERE mr.master.id = :userId")
     List<MasterReview> findAllByUserId(Long userId);
 }

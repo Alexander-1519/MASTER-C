@@ -18,6 +18,6 @@ public interface MaintenanceRepository extends JpaRepository<Maintenance, Long> 
     @Query("SELECT m From Maintenance m WHERE m.master.id = :masterId")
     Page<Maintenance> findAll(Long masterId, Pageable pageable);
 
-    @Query("SELECT m FROM Maintenance m WHERE m.master.user.id = :userId")
+    @Query("SELECT m FROM Maintenance m WHERE m.master.id = :userId")
     List<Maintenance> findAllByUserId(Long userId);
 }

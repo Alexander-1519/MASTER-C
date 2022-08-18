@@ -7,12 +7,14 @@ import com.ryhnik.exception.Code;
 import com.ryhnik.exception.ExceptionBuilder;
 import com.ryhnik.exception.MasterClubException;
 import com.ryhnik.exception.NoSuchMasterException;
+import com.ryhnik.mapper.MasterMapper;
 import com.ryhnik.repository.MaintenanceDateRepository;
 import com.ryhnik.repository.MaintenanceRepository;
 import com.ryhnik.repository.MasterRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -30,6 +32,7 @@ public class MasterService {
     private final PortfolioImageService portfolioImageService;
     private final MaintenanceRepository maintenanceRepository;
     private final MaintenanceDateRepository maintenanceDateRepository;
+    private final MasterMapper masterMapper;
 
     public MasterService(MasterRepository masterRepository,
                          MaintenanceService maintenanceService,
@@ -37,7 +40,7 @@ public class MasterService {
                          MasterReviewService masterReviewService,
                          PortfolioImageService portfolioImageService,
                          MaintenanceRepository maintenanceRepository,
-                         MaintenanceDateRepository maintenanceDateRepository) {
+                         MaintenanceDateRepository maintenanceDateRepository, MasterMapper masterMapper) {
         this.masterRepository = masterRepository;
         this.maintenanceService = maintenanceService;
         this.maintenanceDateService = maintenanceDateService;
@@ -45,6 +48,7 @@ public class MasterService {
         this.portfolioImageService = portfolioImageService;
         this.maintenanceRepository = maintenanceRepository;
         this.maintenanceDateRepository = maintenanceDateRepository;
+        this.masterMapper = masterMapper;
     }
 
     public Page<Master> findAll(MasterFilterDto filter, Pageable pageable) {
@@ -150,18 +154,18 @@ public class MasterService {
 
         List<Long> idsToDelete = new ArrayList<>();
 
-        for(PortfolioImage image: imagesFromDb) {
+        for (PortfolioImage image : imagesFromDb) {
             long count = imagesToUpdate.stream().filter(i -> i.getId().equals(image.getId())).count();
-            if(count == 0) {
+            if (count == 0) {
                 idsToDelete.add(image.getId());
             }
         }
 
-        if(!idsToDelete.isEmpty()){
+        if (!idsToDelete.isEmpty()) {
             portfolioImageService.deleteByIds(idsToDelete);
         }
 
-        if(images != null && !images.isEmpty()) {
+        if (images != null && !images.isEmpty()) {
             portfolioImageService.create(images, username);
         }
 
@@ -207,48 +211,57 @@ public class MasterService {
 
         List<Long> idsToDelete = new ArrayList<>();
 
-        for(PortfolioImage image: imagesFromDb) {
+        for (PortfolioImage image : imagesFromDb) {
             long count = imagesToUpdate.stream().filter(i -> i.getId().equals(image.getId())).count();
-            if(count >
+            if (count >
                     0) {
                 idsToDelete.add(image.getId());
             }
         }
 
-        if(!idsToDelete.isEmpty()){
+        if (!idsToDelete.isEmpty()) {
             portfolioImageService.deleteByIds(idsToDelete);
         }
 
-        if(images != null && !images.isEmpty()) {
+        if (images != null && !images.isEmpty()) {
             portfolioImageService.create(images, username);
         }
 
         return getById(masterRepository.save(master).getId());
     }
 
-    //TODO set startedAt
-    public Master updateInfo(Long masterId, Master updatedMaster, List<MultipartFile> images) {
+    //TODO set startedAt and change return
+    @Transactional
+    public Master updateInfo(Long masterId, MasterFullInputCreateDto updateDto, List<MultipartFile> images) {
         Master master = masterRepository.findById(masterId)
                 .orElseThrow(() -> new NoSuchMasterException(masterId));
 
+        Master updatedMaster = masterMapper.toMaster(updateDto);
+
         updatedMasterInfo(master, updatedMaster);
 
-        for(Maintenance maintenance: master.getMaintenances()){
+        for (Maintenance maintenance : master.getMaintenances()) {
             maintenance.setMaster(master);
         }
-        for(MaintenanceDate date: master.getDates()){
+        for (MaintenanceDate date : master.getDates()) {
             date.setMaster(master);
         }
-        for(MasterReview review: master.getReviews()){
+        for (MasterReview review : master.getReviews()) {
             review.setMaster(master);
         }
 
+        Master savedMaster = masterRepository.save(master);
 
-        return masterRepository.save(master);
+        maintenanceRepository.deleteAllById(updateDto.getMaintenancesToDelete());
+        maintenanceDateRepository.deleteAllById(updateDto.getDatesToDelete());
+
+        return savedMaster;
     }
 
     private void updatedMasterInfo(Master masterToUpdate, Master updatedMaster) {
-        masterToUpdate.setInfo(updatedMaster.getInfo());
+        if (updatedMaster.getInfo() != null ) {
+            masterToUpdate.setInfo(updatedMaster.getInfo());
+        }
         masterToUpdate.setDates(updatedMaster.getDates());
         masterToUpdate.setMaintenances(updatedMaster.getMaintenances());
         masterToUpdate.setReviews(updatedMaster.getReviews());

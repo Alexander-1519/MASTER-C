@@ -2,12 +2,9 @@ package com.ryhnik.controller;
 
 import com.ryhnik.dto.master.MasterFullInputCreateDto;
 import com.ryhnik.dto.master.MasterFullOutputDto;
-import com.ryhnik.dto.master.MasterInputUpdateDto;
-import com.ryhnik.dto.master.MasterOutputDto;
 import com.ryhnik.entity.Master;
 import com.ryhnik.mapper.MasterMapper;
 import com.ryhnik.service.MasterService;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,10 +32,11 @@ public class MasterController {
     public ResponseEntity<MasterFullOutputDto> updateById(@PathVariable Long id,
                                                       @RequestPart(value = "createDto") MasterFullInputCreateDto createDto,
                                                       @RequestPart(value = "images", required = false) List<MultipartFile> images) {
-        Master master = masterService.updateInfo(id, masterMapper.toMaster(createDto), images);
+        Master master = masterService.updateInfo(id, createDto, images);
+        Master byId = masterService.getById(id);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(masterMapper.toFullOutputDto(master));
+                .body(masterMapper.toFullOutputDto(byId));
     }
 
     @DeleteMapping("/{id}")
@@ -51,7 +49,7 @@ public class MasterController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MasterFullOutputDto> getById(@PathVariable Long id) {
-        Master master = masterService.findMasterById(id);
+        Master master = masterService.getById(id);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(masterMapper.toFullOutputDto(master));
@@ -64,7 +62,7 @@ public class MasterController {
             @RequestPart(value = "createDto") MasterFullInputCreateDto createDto,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
                                                     Principal principal) {
-        Master master = masterService.updateInfo(id, masterMapper.toMaster(createDto), images);
+        Master master = masterService.updateInfo(id, createDto, images);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(masterMapper.toFullOutputDto(master));
