@@ -15,7 +15,7 @@ public class MasterFullInputCreateDto {
     private List<MaintenanceInputCreateDto> maintenances;
     private List<MaintenanceDateInputCreateDto> dates;
     private List<PortfolioImage> images;
-    private List<Long> maintenancesToDelete;
+    private List<Long> maintenancesToDelete = new ArrayList<>();
     private List<Long> datesToDelete = new ArrayList<>();
     private List<String> imagesToDelete = new ArrayList<>();
 
