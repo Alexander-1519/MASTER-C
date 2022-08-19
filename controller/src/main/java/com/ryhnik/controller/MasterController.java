@@ -77,9 +77,9 @@ public class MasterController {
                 .body(masterMapper.toFullOutputDto(master));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> changePhoto(@PathVariable Long id,
-                                              @RequestPart MultipartFile image) throws IOException, DbxException {
+                                              @RequestPart(value = "image") MultipartFile image) throws IOException, DbxException {
         String imageUrl = masterService.saveImage(id, image);
 
         return ResponseEntity.status(HttpStatus.OK)
