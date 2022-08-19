@@ -12,7 +12,7 @@ public class PortfolioImage extends BaseAuditableEntity {
     private String imageUrl;
 
     @ManyToOne
-    private Master master;
+    private MasterRoom masterRoom;
 
     public String getImageUrl() {
         return imageUrl;
@@ -22,11 +22,11 @@ public class PortfolioImage extends BaseAuditableEntity {
         this.imageUrl = imageUrl;
     }
 
-    public Master getMaster() {
-        return master;
+    public MasterRoom getMasterRoom() {
+        return masterRoom;
     }
 
-    public void setMaster(Master master) {
-        this.master = master;
+    public void setMasterRoom(MasterRoom masterRoom) {
+        this.masterRoom = masterRoom;
     }
 }

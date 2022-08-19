@@ -12,22 +12,22 @@ import java.util.Optional;
 public interface MaintenanceDateRepository extends JpaRepository<MaintenanceDate, Long> {
 
     @Query("SELECT md FROM MaintenanceDate md " +
-            "JOIN md.master m " +
+            "JOIN md.masterRoom.master m " +
             "JOIN m.user u " +
             "WHERE u.username = :username")
     Optional<List<MaintenanceDate>> findByUsername(String username);
 
     @Query("SELECT md FROM MaintenanceDate md " +
-            "JOIN md.master m " +
+            "JOIN md.masterRoom.master m " +
             "JOIN m.user u " +
             "WHERE u.username = :username AND md.id = :id")
     Optional<MaintenanceDate> findByIdAndUsername(Long id, String username);
 
     @Query("SELECT md FROM MaintenanceDate md " +
-            "JOIN md.master.user u " +
+            "JOIN md.masterRoom.master.user u " +
             "WHERE u.username = :username")
     Page<MaintenanceDate> findAll(String username, Pageable pageable);
 
-    @Query("SELECT md FROM MaintenanceDate md WHERE md.master.id = :id")
+    @Query("SELECT md FROM MaintenanceDate md WHERE md.masterRoom.master.id = :id")
     List<MaintenanceDate> findByUserId(Long id);
 }

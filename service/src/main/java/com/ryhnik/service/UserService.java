@@ -85,11 +85,10 @@ public class UserService {
         Master savedMaster = null;
         if (createDto.getRole() == UserRoleDto.MASTER) {
             Master master = new Master();
-            master.setInfo(createDto.getInfo());
-            if (createDto.getStartedAt() != null) {
-                master.setStartedAt(LocalDate.ofEpochDay(createDto.getStartedAt()));
-            }
-            master.setCategory(createDto.getCategory());
+//            master.setInfo(createDto.getInfo());
+//            if (createDto.getStartedAt() != null) {
+//                master.setStartedAt(LocalDate.ofEpochDay(createDto.getStartedAt()));
+//            }
             master.setUser(saved);
             user.setIsMaster(true);
             savedMaster = masterRepository.save(master);

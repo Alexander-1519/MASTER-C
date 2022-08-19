@@ -16,7 +16,7 @@ public class Maintenance extends BaseAuditableEntity {
     private BigDecimal price;
 
     @ManyToOne
-    private Master master;
+    private MasterRoom masterRoom;
 
     public String getName() {
         return name;
@@ -34,11 +34,11 @@ public class Maintenance extends BaseAuditableEntity {
         this.price = price;
     }
 
-    public Master getMaster() {
-        return master;
+    public MasterRoom getMasterRoom() {
+        return masterRoom;
     }
 
-    public void setMaster(Master master) {
-        this.master = master;
+    public void setMasterRoom(MasterRoom masterRoom) {
+        this.masterRoom = masterRoom;
     }
 }

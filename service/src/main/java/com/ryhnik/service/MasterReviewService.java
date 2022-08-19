@@ -35,7 +35,7 @@ public class MasterReviewService {
         Master master = masterRepository.findById(masterId)
                 .orElseThrow(() -> new NoSuchMasterException(masterId));
 
-        masterReview.setMaster(master);
+//        masterReview.setMaster(master);
         masterReview.setUser(user);
 
         return masterReviewRepository.save(masterReview);
@@ -47,7 +47,8 @@ public class MasterReviewService {
     }
 
     public Page<MasterReview> getAll(Long masterId, Pageable pageable) {
-        return masterReviewRepository.findAllByMasterId(masterId, pageable);
+//        return masterReviewRepository.findAllByMasterId(masterId, pageable);
+        return null;
     }
 
     public MasterReview updateMasterReview(Long reviewId, String username, MasterReview masterReview) {

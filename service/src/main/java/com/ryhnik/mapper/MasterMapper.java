@@ -34,6 +34,6 @@ public interface MasterMapper {
     MasterFullOutputDto toFullOutputDto(Master master);
 
 //    @Mapping(target = "startedAt", expression = "java(java.time.LocalDate.ofInstant(java.time.Instant.ofEpochMilli(inputCreateDto.getStartedAt()), java.util.TimeZone.getDefault().toZoneId()))")
-    @Mapping(target = "startedAt", ignore = true)
+//    @Mapping(target = "startedAt", ignore = true)
     Master toMaster(MasterFullInputCreateDto inputCreateDto);
 }

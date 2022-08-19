@@ -1,10 +1,10 @@
 package com.ryhnik.dto.master.filter;
 
-import com.ryhnik.entity.MasterCategory;
+import com.ryhnik.dto.master.MasterCategoryDto;
 
 public class MasterFilterDto {
 
-    private MasterCategory category;
+    private MasterCategoryDto category;
     private Long experience;
 
     public Long getExperience() {
@@ -15,11 +15,12 @@ public class MasterFilterDto {
         this.experience = experience;
     }
 
-    public MasterCategory getCategory() {
+    public MasterCategoryDto getCategory() {
         return category;
     }
 
-    public void setCategory(MasterCategory category) {
+    public void setCategory(MasterCategoryDto
+                                    category) {
         this.category = category;
     }
 }

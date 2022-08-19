@@ -17,7 +17,7 @@ public class MaintenanceDate extends BaseAuditableEntity {
     private LocalDateTime date;
 
     @ManyToOne
-    private Master master;
+    private MasterRoom masterRoom;
 
     public LocalDateTime getDate() {
         return date;
@@ -27,11 +27,11 @@ public class MaintenanceDate extends BaseAuditableEntity {
         this.date = date;
     }
 
-    public Master getMaster() {
-        return master;
+    public MasterRoom getMasterRoom() {
+        return masterRoom;
     }
 
-    public void setMaster(Master master) {
-        this.master = master;
+    public void setMasterRoom(MasterRoom masterRoom) {
+        this.masterRoom = masterRoom;
     }
 }

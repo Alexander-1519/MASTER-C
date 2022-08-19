@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
-@RequestMapping(value = "api/v1/masters/{masterId}/maintenances", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/v1/masters/{masterId}/rooms/{roomId}/maintenances", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Maintenances", description = "API for maintenance")
 public class MaintenanceController {
 
@@ -33,11 +33,13 @@ public class MaintenanceController {
 
     @PostMapping
     public ResponseEntity<MaintenanceOutputDto> create(@PathVariable Long masterId,
+                                                       @PathVariable Long roomId,
                                                        @RequestBody @Valid MaintenanceInputCreateDto createDto,
                                                        Principal principal){
         Maintenance maintenance = maintenanceService.create(
                 principal.getName(),
                 masterId,
+                roomId,
                 maintenanceMapper.toMaintenance(createDto));
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -45,7 +47,9 @@ public class MaintenanceController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long masterId, @PathVariable Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable Long masterId,
+                                           @PathVariable Long roomId,
+                                           @PathVariable Long id){
         maintenanceService.deleteById(masterId, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
@@ -53,8 +57,10 @@ public class MaintenanceController {
     }
 
     @GetMapping
-    public ResponseEntity<PageDto<MaintenanceOutputDto>> findAll(@PathVariable Long masterId, Pageable pageable){
-        Page<Maintenance> maintenances = maintenanceService.findAll(masterId, pageable);
+    public ResponseEntity<PageDto<MaintenanceOutputDto>> findAll(@PathVariable Long masterId,
+                                                                 @PathVariable Long roomId,
+                                                                 Pageable pageable){
+        Page<Maintenance> maintenances = maintenanceService.findAll(masterId, roomId, pageable);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(maintenanceMapper.toOutputDto(maintenances, maintenances.getPageable()));

@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public interface MasterReviewRepository extends JpaRepository<MasterReview, Long> {
 
-    Page<MasterReview> findAllByMasterId(Long masterId, Pageable pageable);
+//    Page<MasterReview> findAllByMasterId(Long masterId, Pageable pageable);
 
     Optional<MasterReview> findByIdAndUserUsername(Long id, String username);
 
-    @Query("SELECT mr FROM MasterReview mr WHERE mr.master.id = :userId")
+    @Query("SELECT mr FROM MasterReview mr WHERE mr.masterRoom.master.id = :userId")
     List<MasterReview> findAllByUserId(Long userId);
 }

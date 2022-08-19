@@ -3,10 +3,7 @@ package com.ryhnik.service;
 import com.ryhnik.entity.MaintenanceDate;
 import com.ryhnik.entity.Master;
 import com.ryhnik.exception.*;
-import com.ryhnik.repository.MaintenanceDateRepository;
-import com.ryhnik.repository.MaintenanceRepository;
-import com.ryhnik.repository.MasterRepository;
-import com.ryhnik.repository.UserRepository;
+import com.ryhnik.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,15 +17,18 @@ public class MaintenanceDateService {
     private final MaintenanceDateRepository maintenanceDateRepository;
     private final UserRepository userRepository;
     private final MasterRepository masterRepository;
+    private final MasterRoomRepository masterRoomRepository;
 
     public MaintenanceDateService(MaintenanceRepository maintenanceRepository,
                                   MaintenanceDateRepository maintenanceDateRepository,
                                   UserRepository userRepository,
-                                  MasterRepository masterRepository) {
+                                  MasterRepository masterRepository,
+                                  MasterRoomRepository masterRoomRepository) {
         this.maintenanceRepository = maintenanceRepository;
         this.maintenanceDateRepository = maintenanceDateRepository;
         this.userRepository = userRepository;
         this.masterRepository = masterRepository;
+        this.masterRoomRepository = masterRoomRepository;
     }
 
     public Master create(List<MaintenanceDate> dates, String username) {
@@ -37,7 +37,7 @@ public class MaintenanceDateService {
 
         List<MaintenanceDate> maintenanceDates = maintenanceDateRepository.saveAll(dates);
 
-        master.setDates(maintenanceDates);
+//        master.setDates(maintenanceDates);
         return masterRepository.save(master);
     }
 

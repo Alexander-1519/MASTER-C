@@ -11,49 +11,37 @@ import java.util.List;
 @Table(name = "masters")
 public class Master extends BaseAuditableEntity {
 
-    @Column(name = "started_at")
-    private LocalDate startedAt;
+    private String imageUrl;
 
-    private String info;
-
-    @Enumerated(EnumType.STRING)
-    private MasterCategory category;
+//    @Enumerated(EnumType.STRING)
+//    private MasterCategory category;
 
     @OneToOne
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "master")
-    private List<MaintenanceDate> dates;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<MasterRoom> rooms;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "master")
-    private List<Maintenance> maintenances;
+//    public MasterCategory getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(MasterCategory category) {
+//        this.category = category;
+//    }
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "master")
-    private List<PortfolioImage> images;
-
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "master")
-    private List<MasterReview> reviews = new ArrayList<>();
-
-    public MasterCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(MasterCategory category) {
-        this.category = category;
-    }
-
-    public LocalDate getStartedAt() {
-        return startedAt;
-    }
-
-    public void setStartedAt(LocalDate startedAt) {
-        this.startedAt = startedAt;
-    }
-
-    public String getInfo() {
-        return info;
-    }
+//    public LocalDate getStartedAt() {
+//        return startedAt;
+//    }
+//
+//    public void setStartedAt(LocalDate startedAt) {
+//        this.startedAt = startedAt;
+//    }
+//
+//    public String getInfo() {
+//        return info;
+//    }
 
     public User getUser() {
         return user;
@@ -63,39 +51,55 @@ public class Master extends BaseAuditableEntity {
         this.user = user;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public List<MasterRoom> getRooms() {
+        return rooms;
     }
 
-    public List<MaintenanceDate> getDates() {
-        return dates;
+    public void setRooms(List<MasterRoom> rooms) {
+        this.rooms = rooms;
     }
 
-    public void setDates(List<MaintenanceDate> dates) {
-        this.dates = dates;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public List<Maintenance> getMaintenances() {
-        return maintenances;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public void setMaintenances(List<Maintenance> maintenances) {
-        this.maintenances = maintenances;
-    }
+    //    public void setInfo(String info) {
+//        this.info = info;
+//    }
 
-    public List<PortfolioImage> getImages() {
-        return images;
-    }
-
-    public void setImages(List<PortfolioImage> images) {
-        this.images = images;
-    }
-
-    public List<MasterReview> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<MasterReview> reviews) {
-        this.reviews = reviews;
-    }
+//    public List<MaintenanceDate> getDates() {
+//        return dates;
+//    }
+//
+//    public void setDates(List<MaintenanceDate> dates) {
+//        this.dates = dates;
+//    }
+//
+//    public List<Maintenance> getMaintenances() {
+//        return maintenances;
+//    }
+//
+//    public void setMaintenances(List<Maintenance> maintenances) {
+//        this.maintenances = maintenances;
+//    }
+//
+//    public List<PortfolioImage> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<PortfolioImage> images) {
+//        this.images = images;
+//    }
+//
+//    public List<MasterReview> getReviews() {
+//        return reviews;
+//    }
+//
+//    public void setReviews(List<MasterReview> reviews) {
+//        this.reviews = reviews;
+//    }
 }

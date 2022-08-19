@@ -14,7 +14,7 @@ public class MasterReview extends BaseAuditableEntity {
     private Double rating;
 
     @ManyToOne
-    private Master master;
+    private MasterRoom masterRoom;
 
     @ManyToOne
     private User user;
@@ -35,12 +35,12 @@ public class MasterReview extends BaseAuditableEntity {
         this.rating = rating;
     }
 
-    public Master getMaster() {
-        return master;
+    public MasterRoom getMasterRoom() {
+        return masterRoom;
     }
 
-    public void setMaster(Master master) {
-        this.master = master;
+    public void setMasterRoom(MasterRoom masterRoom) {
+        this.masterRoom = masterRoom;
     }
 
     public User getUser() {

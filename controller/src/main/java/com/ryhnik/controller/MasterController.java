@@ -1,5 +1,6 @@
 package com.ryhnik.controller;
 
+import com.dropbox.core.DbxException;
 import com.ryhnik.dto.master.MasterFullInputCreateDto;
 import com.ryhnik.dto.master.MasterFullOutputDto;
 import com.ryhnik.entity.Master;
@@ -9,9 +10,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -30,8 +39,8 @@ public class MasterController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MasterFullOutputDto> updateById(@PathVariable Long id,
-                                                      @RequestPart(value = "createDto") MasterFullInputCreateDto createDto,
-                                                      @RequestPart(value = "images", required = false) List<MultipartFile> images) {
+                                                          @RequestPart(value = "createDto") MasterFullInputCreateDto createDto,
+                                                          @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         Master master = masterService.updateInfo(id, createDto, images);
         Master byId = masterService.getById(id);
 
@@ -56,15 +65,24 @@ public class MasterController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST,
-            consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<MasterFullOutputDto> save(
             @PathVariable Long id,
             @RequestPart(value = "createDto") MasterFullInputCreateDto createDto,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
-                                                    Principal principal) {
+            Principal principal) {
         Master master = masterService.updateInfo(id, createDto, images);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(masterMapper.toFullOutputDto(master));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> changePhoto(@PathVariable Long id,
+                                              @RequestPart MultipartFile image) throws IOException, DbxException {
+        String imageUrl = masterService.saveImage(id, image);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(imageUrl);
     }
 }

@@ -40,7 +40,7 @@ public class PortfolioImageService {
 
             PortfolioImage portfolioImage = new PortfolioImage();
             portfolioImage.setImageUrl(uri);
-            portfolioImage.setMaster(master);
+//            portfolioImage.setMaster(master);
             PortfolioImage savedImage = imageRepository.save(portfolioImage);
             portfolioImages.add(savedImage);
         }
@@ -49,7 +49,8 @@ public class PortfolioImageService {
     }
 
     public List<PortfolioImage> getAllImagesByMasterId(Long masterId) {
-        return imageRepository.getAllByMasterId(masterId);
+//        return imageRepository.getAllByMasterId(masterId);
+        return null;
     }
 
     public void deleteByIds(List<Long> ids) {

@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 @Mapper(componentModel = "spring")
 public interface MasterReviewMapper {
 
-    @Mapping(target = "masterId", source = "master.id")
+//    @Mapping(target = "masterId", source = "master.id")
     @Mapping(target = "imageUrl", source = "user.imageUrl")
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "username", source = "user.username")

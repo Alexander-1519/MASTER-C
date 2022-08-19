@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PortfolioImageRepository extends JpaRepository<PortfolioImage, Long> {
 
-    List<PortfolioImage> getAllByMasterId(Long masterId);
+//    List<PortfolioImage> getAllByMasterId(Long masterId);
 }

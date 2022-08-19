@@ -21,7 +21,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/masters/{masterId}/maintenance-dates", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/v1/masters/{masterId}/rooms/{roomId}/dates", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "MaintenanceDates", description = "API for maintenance dates")
 public class MaintenanceDateController {
 
@@ -38,7 +38,9 @@ public class MaintenanceDateController {
     }
 
     @GetMapping
-    public ResponseEntity<PageDto<MaintenanceDateOutputDto>> findAll(Principal principal, Pageable pageable) {
+    public ResponseEntity<PageDto<MaintenanceDateOutputDto>> findAll(@PathVariable Long masterId,
+                                                                     @PathVariable Long roomId,
+                                                                     Principal principal, Pageable pageable) {
         Page<MaintenanceDate> all = maintenanceDateService.findAll(principal.getName(), pageable);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -46,7 +48,9 @@ public class MaintenanceDateController {
     }
 
     @PostMapping
-    public ResponseEntity<MasterOutputDto> create(@RequestBody List<MaintenanceDateInputCreateDto> createDto,
+    public ResponseEntity<MasterOutputDto> create(@PathVariable Long masterId,
+                                                  @PathVariable Long roomId,
+                                                  @RequestBody List<MaintenanceDateInputCreateDto> createDto,
                                                   Principal principal) {
         Master master = maintenanceDateService.create(dateMapper.toMaintenanceDate(createDto), principal.getName());
 
@@ -55,7 +59,9 @@ public class MaintenanceDateController {
     }
 
     @PutMapping
-    public ResponseEntity<List<MaintenanceDateOutputDto>> update(@RequestBody List<MaintenanceDateInputCreateDto> updateDto,
+    public ResponseEntity<List<MaintenanceDateOutputDto>> update(@PathVariable Long masterId,
+                                                                 @PathVariable Long roomId,
+                                                                 @RequestBody List<MaintenanceDateInputCreateDto> updateDto,
                                                   Principal principal) {
         List<MaintenanceDate> update = maintenanceDateService.update(dateMapper.toMaintenanceDate(updateDto),
                 principal.getName());
@@ -65,7 +71,9 @@ public class MaintenanceDateController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long masterId,
+                                           @PathVariable Long roomId,
+                                           @PathVariable Long id, Principal principal) {
         maintenanceDateService.deleteById(id, principal.getName());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)

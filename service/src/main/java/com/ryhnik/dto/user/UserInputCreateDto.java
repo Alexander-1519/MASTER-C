@@ -1,6 +1,6 @@
 package com.ryhnik.dto.user;
 
-import com.ryhnik.entity.MasterCategory;
+import com.ryhnik.dto.master.MasterCategoryDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -21,13 +21,13 @@ public class UserInputCreateDto {
     private UserRoleDto role;
     private String info;
     private Long startedAt;
-    private MasterCategory category;
+    private MasterCategoryDto category;
 
-    public MasterCategory getCategory() {
+    public MasterCategoryDto getCategory() {
         return category;
     }
 
-    public void setCategory(MasterCategory category) {
+    public void setCategory(MasterCategoryDto category) {
         this.category = category;
     }
 

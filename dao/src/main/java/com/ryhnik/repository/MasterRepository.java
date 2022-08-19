@@ -12,10 +12,8 @@ import java.util.Optional;
 
 public interface MasterRepository extends JpaRepository<Master, Long> {
 
-    @Query("SELECT m FROM Master m WHERE m.category = :category AND m.startedAt <= :experience")
-    Page<Master> findAll(MasterCategory category,
-                         LocalDate experience,
-                         Pageable pageable);
+    @Query("SELECT m FROM Master m")
+    Page<Master> findAll(LocalDate experience, Pageable pageable);
 
     @Query("SELECT m FROM Master m " +
             "JOIN m.user u " +
